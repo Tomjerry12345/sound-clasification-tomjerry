@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sound Classification</title>
+    <script src="p5.min.js"></script>
+    <script src="p5.dom.min.js"></script>
+    <script src="ml5.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      .prediction {
+        margin: 10px 0;
+      }
+      .label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+      }
+      .progress-bar {
+        width: 100%;
+        background-color: #f3f3f3;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        overflow: hidden;
+        height: 20px;
+      }
+      .progress {
+        height: 100%;
+        background-color: #4caf50;
+        width: 0%;
+        text-align: center;
+        color: white;
+        line-height: 20px;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Sound Classification</h1>
+    <p>
+      Below are the predicted labels and their confidence scores represented as
+      progress bars.
+    </p>
+    <div id="prediction-container"></div>
+
+    <script>
+      // Global variable to store the classifier
+      let classifier;
+
+      // Teachable Machine model URL:
+      const soundModelURL =
+        "https://teachablemachine.withgoogle.com/models/36WFBbGy3/model.json";
+
+      function preload() {
+        // Load the model
+        classifier = ml5.soundClassifier(soundModelURL);
+      }
+
+      function setup() {
+        noCanvas();
+        // Start classifying
+        classifier.classify(gotResult);
+      }
+
+      function gotResult(error, results) {
+        if (error) {
+          console.error(error);
+          return;
+        }
+
+        // Sort results by confidence descending
+        const sortedResults = results.sort(
+          (a, b) => b.confidence - a.confidence
+        );
+
+        // Display results
+        const predictionContainer = document.getElementById(
+          "prediction-container"
+        );
+        predictionContainer.innerHTML = ""; // Clear previous predictions
+
+        sortedResults.forEach((result) => {
+          const confidencePercent = (result.confidence * 100).toFixed(2);
+
+          // Create container for prediction
+          const predictionDiv = document.createElement("div");
+          predictionDiv.className = "prediction";
+
+          // Create label
+          const label = document.createElement("span");
+          label.className = "label";
+          label.innerText = `${result.label}: ${confidencePercent}%`;
+
+          // Create progress bar
+          const progressBar = document.createElement("div");
+          progressBar.className = "progress-bar";
+
+          const progress = document.createElement("div");
+          progress.className = "progress";
+          progress.style.width = `${confidencePercent}%`;
+          progress.innerText = `${confidencePercent}%`;
+
+          // Append elements
+          progressBar.appendChild(progress);
+          predictionDiv.appendChild(label);
+          predictionDiv.appendChild(progressBar);
+          predictionContainer.appendChild(predictionDiv);
+        });
+      }
+    </script>
+  </body>
+</html>

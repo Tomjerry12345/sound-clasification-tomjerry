@@ -1,0 +1,26 @@
+{
+  "name": "sound-clasification-tomjerry",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tomjerry12345/sound-clasification-tomjerry.git"
+  },
+  "author": "tomjerry",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tomjerry12345/sound-clasification-tomjerry/issues"
+  },
+  "homepage": "https://github.com/Tomjerry12345/sound-clasification-tomjerry#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
