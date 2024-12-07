@@ -5,6 +5,6 @@ Open terminal and type command:
 npm install
 ```
 
-After that
+After that:
 ```
 npm start
