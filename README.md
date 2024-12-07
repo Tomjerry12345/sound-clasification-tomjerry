@@ -3,7 +3,8 @@
 Open terminal and type command:
 ```bash
 npm install
+```
 
 After
-
+```
 npm start
